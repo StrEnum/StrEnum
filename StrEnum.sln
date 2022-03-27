@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrEnum", "src\StrEnum\StrEnum.csproj", "{D2053039-DFB4-469D-8778-61F658E94D98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrEnum.UnitTests", "test\StrEnum.UnitTests\StrEnum.UnitTests.csproj", "{839DD82B-055E-4934-8358-15EF5B06F3F9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D2053039-DFB4-469D-8778-61F658E94D98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2053039-DFB4-469D-8778-61F658E94D98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2053039-DFB4-469D-8778-61F658E94D98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2053039-DFB4-469D-8778-61F658E94D98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{839DD82B-055E-4934-8358-15EF5B06F3F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{839DD82B-055E-4934-8358-15EF5B06F3F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{839DD82B-055E-4934-8358-15EF5B06F3F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{839DD82B-055E-4934-8358-15EF5B06F3F9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {024B90F3-FE84-4F99-A466-AEB7DA7A87CD}
+	EndGlobalSection
+EndGlobal
