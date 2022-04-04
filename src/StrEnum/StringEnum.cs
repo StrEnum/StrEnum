@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace StrEnum
@@ -45,7 +44,7 @@ namespace StrEnum
 
             var member = new TEnum()
             {
-                _name =  name,
+                _name = name,
                 _value = value
             };
 
@@ -53,5 +52,42 @@ namespace StrEnum
         }
 
         public override string ToString() => _value;
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null)
+                return false;
+
+            if (GetType() != obj.GetType())
+                return false;
+
+            var otherEnum = (StringEnum<TEnum>)obj;
+
+            return _value.Equals(otherEnum._value);
+        }
+
+        public override int GetHashCode()
+        {
+            return _value.GetHashCode();
+        }
+
+
+        public static bool operator == (StringEnum<TEnum> a, StringEnum<TEnum> b)
+        {
+            if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
+                return true;
+
+            if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
+                return false;
+
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(StringEnum<TEnum> a, StringEnum<TEnum> b)
+        {
+            return !(a == b);
+        }
     }
+
+
 }
