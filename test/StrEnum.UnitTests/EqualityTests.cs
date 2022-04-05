@@ -6,24 +6,25 @@ namespace StrEnum.UnitTests;
 
 public class EqualityTests
 {
-    public class Channel : StringEnum<Channel>
+    public class TropicalSeason : StringEnum<TropicalSeason>
     {
-        public static readonly Channel Sms = Define("SMS");
-        public static readonly Channel Email = Define("EMAIL");
+        public static readonly TropicalSeason Wet = Define("WET");
+        public static readonly TropicalSeason Dry = Define("DRY");
     }
 
-    public class AnotherChannel : StringEnum<AnotherChannel>
+    public class CleaningType : StringEnum<CleaningType>
     {
-        public static readonly AnotherChannel Sms = Define("SMS");
+        public static readonly CleaningType Wet = Define("WET");
+        public static readonly CleaningType Dry = Define("DRY");
     }
 
     public static IEnumerable<object?[]> EqualsTestCases =>
         new[]
         {
-            new object?[] { Channel.Sms, Channel.Sms, true },
-            new object?[] { Channel.Sms, Channel.Email, false },
-            new object?[] { Channel.Sms, AnotherChannel.Sms, false },
-            new object?[] { Channel.Sms, null, false},
+            new object?[] { TropicalSeason.Wet, TropicalSeason.Wet, true },
+            new object?[] { TropicalSeason.Wet, TropicalSeason.Dry, false },
+            new object?[] { TropicalSeason.Wet, CleaningType.Wet, false },
+            new object?[] { TropicalSeason.Wet, null, false},
         };
 
     [Theory]
@@ -37,17 +38,17 @@ public class EqualityTests
     public static IEnumerable<object?[]> EqualityOperatorTestCases =>
         new[]
         {
-            new object?[] { Channel.Sms, Channel.Sms, true },
-            new object?[] { Channel.Sms, Channel.Email, false },
-            new object?[] { Channel.Sms, null, false },
-            new object?[] { null, Channel.Sms, false},
+            new object?[] { TropicalSeason.Wet, TropicalSeason.Wet, true },
+            new object?[] { TropicalSeason.Wet, TropicalSeason.Dry, false },
+            new object?[] { TropicalSeason.Wet, null, false },
+            new object?[] { null, TropicalSeason.Wet, false},
             new object?[] { null, null, true}
         };
 
     [Theory]
     [MemberData(nameof(EqualityOperatorTestCases))]
-    public void InequalityOperator_GivenTwoEnumMembers_ShouldConsiderThemNotEqualIfTheirValuesAreDifferentAndTheyAreBothNotNull(Channel? enum1,
-        Channel? enum2, bool expectedEqual)
+    public void InequalityOperator_GivenTwoEnumMembers_ShouldConsiderThemNotEqualIfTheirValuesAreDifferentAndTheyAreBothNotNull(TropicalSeason? enum1,
+        TropicalSeason? enum2, bool expectedEqual)
     {
         var expectedDifferent = !expectedEqual;
 
@@ -57,6 +58,6 @@ public class EqualityTests
     [Fact]
     public void GetHashCode_ShouldReturnTheHashCodeOfTheMemberValue()
     {
-        Channel.Sms.GetHashCode().Should().Be("SMS".GetHashCode());
+        TropicalSeason.Wet.GetHashCode().Should().Be("WET".GetHashCode());
     }
 }

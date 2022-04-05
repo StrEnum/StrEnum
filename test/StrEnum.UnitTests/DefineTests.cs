@@ -7,43 +7,43 @@ namespace StrEnum.UnitTests;
 
 public class DefineTests
 {
-    private class ChannelWithTwoDifferentKeys : StringEnum<ChannelWithTwoDifferentKeys>
+    private class TropicalSeason : StringEnum<TropicalSeason>
     {
-        public static readonly ChannelWithTwoDifferentKeys Sms = Define("SMS");
-        public static readonly ChannelWithTwoDifferentKeys Email = Define("Email");
+        public static readonly TropicalSeason Wet = Define("WET");
+        public static readonly TropicalSeason Dry = Define("DRY");
     }
 
     [Fact]
     public void Define_GivenDifferentKeys_ShouldCreateEnum()
     {
-        ChannelWithTwoDifferentKeys.Sms.ToString().Should().Be("SMS");
-        ChannelWithTwoDifferentKeys.Email.ToString().Should().Be("Email");
+        TropicalSeason.Wet.ToString().Should().Be("Wet");
+        TropicalSeason.Dry.ToString().Should().Be("Dry");
     }
 
-    private class ChannelWithAMemberValueOfNull : StringEnum<ChannelWithAMemberValueOfNull>
+    private class SeasonWithMemberValueOfNull : StringEnum<SeasonWithMemberValueOfNull>
     {
-        public static readonly ChannelWithAMemberValueOfNull Sms = Define(null);
+        public static readonly SeasonWithMemberValueOfNull Summer = Define(null);
     }
 
     [Fact]
     public void Define_GivenAValueOfNull_ShouldThrowAnException()
     {
-        var accessMember = () => ChannelWithAMemberValueOfNull.Sms;
+        var accessMember = () => SeasonWithMemberValueOfNull.Summer;
         
         accessMember.Should().Throw<TypeInitializationException>()
             .WithInnerException<ArgumentNullException>()
             .WithParameterName("value");
     }
 
-    private class ChannelWithAMemberNameOfNull : StringEnum<ChannelWithAMemberNameOfNull>
+    private class SeasonWithAMemberNameOfNull : StringEnum<SeasonWithAMemberNameOfNull>
     {
-        public static readonly ChannelWithAMemberNameOfNull Sms = Define("SMS", null);
+        public static readonly SeasonWithAMemberNameOfNull Summer = Define("Summer", null);
     }
 
     [Fact]
     public void Define_GivenANameOfNull_ShouldThrowAnException()
     {
-        var accessMember = () => ChannelWithAMemberNameOfNull.Sms;
+        var accessMember = () => SeasonWithAMemberNameOfNull.Summer;
 
         accessMember.Should().Throw<TypeInitializationException>()
             .WithInnerException<ArgumentNullException>()
