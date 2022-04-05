@@ -7,14 +7,14 @@ namespace StrEnum.UnitTests;
 
 public class ToStringTests
 {
-    public class ChannelWithOneKey : StringEnum<ChannelWithOneKey>
+    public class Season : StringEnum<Season>
     {
-        public static readonly ChannelWithOneKey Sms = Define("SMS");
+        public static readonly Season Summer = Define("SUMMER");
     }
 
     [Fact]
-    public void ToString_ShouldReturnTheMemberValue()
+    public void ToString_ShouldReturnTheMemberName()
     {
-        ChannelWithOneKey.Sms.ToString().Should().Be("SMS");
+        Season.Summer.ToString().Should().Be("Summer");
     }
 }
