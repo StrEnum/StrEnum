@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 
+// ReSharper disable ExplicitCallerInfoArgument
+
 namespace StrEnum
 {
     /// <summary>
@@ -21,6 +23,14 @@ namespace StrEnum
     /// </example>
     public abstract class StringEnum<TEnum> where TEnum : StringEnum<TEnum>, new()
     {
+        static StringEnum()
+        {
+            // Initialize the TEnums's static fields upon the enum creation
+            RuntimeHelpers.RunClassConstructor(typeof(TEnum).TypeHandle);
+        }
+
+        private static readonly MembersStore<TEnum> Members = new();
+
         private string _name;
         private string _value;
 
@@ -28,7 +38,8 @@ namespace StrEnum
         ///     Defines a new member of the <typeparamref name="TEnum" /> enum with a given name and value.
         /// </summary>
         /// <param name="value">Value of the member</param>
-        /// <param name="name">Name of the member. If omitted, will use the name of the property, field, or method.</param>
+        /// <param name="name">Name of the member. If omitted, will use the name of the property, field, or method that calls the Define method.</param>
+        /// <param name="callerMemberName">The name of the property, field, or method that calls the Define method. The value is passed automatically.</param>
         /// <returns>The newly defined <typeparamref name="TEnum" /> member.</returns>
         /// <example>
         ///     Example:
@@ -36,10 +47,12 @@ namespace StrEnum
         /// public static readonly <typeparamref name="TEnum" /> Name = Define("Value");
         /// </code>
         /// </example>
-        protected static TEnum Define(string value, [CallerMemberName] string name = null)
+        protected static TEnum Define(string value, string? name = null, [CallerMemberName] string? callerMemberName = null)
         {
             if (value == null)
                 throw new ArgumentNullException(nameof(value));
+
+            name ??= callerMemberName;
 
             if (name == null)
                 throw new ArgumentNullException(nameof(name));
@@ -50,6 +63,11 @@ namespace StrEnum
                 _value = value
             };
 
+            var added = Members.TryAdd(member);
+
+            if (!added)
+                throw new ArgumentException($"A member '{name}' is already defined.");
+            
             return member;
         }
 
@@ -58,7 +76,7 @@ namespace StrEnum
             return _name;
         }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == null)
                 return false;
@@ -76,8 +94,17 @@ namespace StrEnum
             return _value.GetHashCode();
         }
 
+        public static TEnum Parse(string nameOrValue)
+        {
+            var member = Members.Find(nameOrValue);
 
-        public static bool operator ==(StringEnum<TEnum> a, StringEnum<TEnum> b)
+            if (member == null)
+                throw new ArgumentException($"Requested name or value '{nameOrValue}' was not found.");
+
+            return member;
+        }
+
+        public static bool operator ==(StringEnum<TEnum>? a, StringEnum<TEnum>? b)
         {
             if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
                 return true;
@@ -88,7 +115,7 @@ namespace StrEnum
             return a.Equals(b);
         }
 
-        public static bool operator !=(StringEnum<TEnum> a, StringEnum<TEnum> b)
+        public static bool operator !=(StringEnum<TEnum>? a, StringEnum<TEnum>? b)
         {
             return !(a == b);
         }

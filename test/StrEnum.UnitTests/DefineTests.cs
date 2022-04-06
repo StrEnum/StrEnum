@@ -4,7 +4,6 @@ using Xunit;
 
 namespace StrEnum.UnitTests;
 
-
 public class DefineTests
 {
     private class TropicalSeason : StringEnum<TropicalSeason>
@@ -22,7 +21,7 @@ public class DefineTests
 
     private class SeasonWithMemberValueOfNull : StringEnum<SeasonWithMemberValueOfNull>
     {
-        public static readonly SeasonWithMemberValueOfNull Summer = Define(null);
+        public static readonly SeasonWithMemberValueOfNull Summer = Define(null!);
     }
 
     [Fact]
@@ -37,7 +36,7 @@ public class DefineTests
 
     private class SeasonWithAMemberNameOfNull : StringEnum<SeasonWithAMemberNameOfNull>
     {
-        public static readonly SeasonWithAMemberNameOfNull Summer = Define("Summer", null);
+        public static readonly SeasonWithAMemberNameOfNull Summer = Define("Summer", callerMemberName: null);
     }
 
     [Fact]
@@ -48,5 +47,25 @@ public class DefineTests
         accessMember.Should().Throw<TypeInitializationException>()
             .WithInnerException<ArgumentNullException>()
             .WithParameterName("name");
+    }
+
+    private class ExtensibleTropicalSeason : StringEnum<ExtensibleTropicalSeason>
+    {
+        public static readonly ExtensibleTropicalSeason Wet = Define("WET");
+        public static readonly ExtensibleTropicalSeason Dry = Define("DRY");
+
+        public static ExtensibleTropicalSeason AddAnotherWetSeason()
+        {
+            return Define("WET2", "Wet");
+        }
+    }
+
+    [Fact]
+    public void Define_GivenANameThatAlreadyMatchesAMember_ShouldThrowAnException()
+    {
+        var addMember = ExtensibleTropicalSeason.AddAnotherWetSeason;
+
+        addMember.Should().Throw<ArgumentException>()
+            .WithMessage("A member 'Wet' is already defined.");
     }
 }
