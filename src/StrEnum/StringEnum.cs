@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 namespace StrEnum
 {
     /// <summary>
-    ///     Allows to create and use a string enum of type <typeparamref name="TEnum" />.
+    ///     Allows to create a string enum of type <typeparamref name="TEnum" />.
     /// </summary>
     /// <typeparam name="TEnum">The class to represent the string enum.</typeparam>
     /// <example>
@@ -29,10 +29,10 @@ namespace StrEnum
             RuntimeHelpers.RunClassConstructor(typeof(TEnum).TypeHandle);
         }
 
-        private static readonly MembersStore<TEnum> Members = new();
-
         private string _name;
         private string _value;
+
+        private static readonly MembersStore<TEnum> Members = new();
 
         /// <summary>
         ///     Defines a new member of the <typeparamref name="TEnum" /> enum with a given name and value.

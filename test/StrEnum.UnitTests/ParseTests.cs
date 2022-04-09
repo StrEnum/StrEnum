@@ -6,7 +6,7 @@ namespace StrEnum.UnitTests;
 
 public class ParseTests
 {
-    public class Season: StringEnum<Season>
+    public class Season : StringEnum<Season>
     {
         public static readonly Season Summer = Define("SUMMER");
     }

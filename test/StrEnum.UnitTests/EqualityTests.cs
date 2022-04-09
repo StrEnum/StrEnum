@@ -10,6 +10,8 @@ public class EqualityTests
     {
         public static readonly TropicalSeason Wet = Define("WET");
         public static readonly TropicalSeason Dry = Define("DRY");
+        
+        public static readonly TropicalSeason Rainy = Define("WET");
     }
 
     public class CleaningType : StringEnum<CleaningType>
@@ -40,6 +42,7 @@ public class EqualityTests
         {
             new object?[] { TropicalSeason.Wet, TropicalSeason.Wet, true },
             new object?[] { TropicalSeason.Wet, TropicalSeason.Dry, false },
+            new object?[] { TropicalSeason.Wet, TropicalSeason.Rainy, true},
             new object?[] { TropicalSeason.Wet, null, false },
             new object?[] { null, TropicalSeason.Wet, false},
             new object?[] { null, null, true}
