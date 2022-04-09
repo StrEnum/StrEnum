@@ -6,7 +6,7 @@ StrEnum targets .NET Standard 2.0 and has no external dependencies.
 
 ## How do I install it?
 
-You can install \[StrEnum\](https://www.nuget.org/packages/StrEnum/) using the .NET CLI:
+You can install [StrEnum](https://www.nuget.org/packages/StrEnum/) using the .NET CLI:
 
 ```
 dotnet add package StrEnum

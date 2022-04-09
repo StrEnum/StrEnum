@@ -1,0 +1,19 @@
+on:
+  release:
+    types: [released]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set VERSION variable from tag
+      run: echo "VERSION=${GITHUB_REF/refs\/tags\/}" >> $GITHUB_ENV
+    - name: Build
+      run: docker build --target build .
+    - name: Test
+      run: docker build --target test .
+    - name: Pack & Publish
+      run: docker build --target pack-and-push --build-arg PackageVersion=${VERSION} --build-arg NuGetApiKey=${{secrets.NUGET_API_KEY}} .
+
