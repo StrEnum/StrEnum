@@ -1,6 +1,6 @@
 # StrEnum
 
-StrEnum is a tiny library that allows to create string-based enums in C#. Using strings instead of numerics gives your state more meaning when it crosses the boundaries of your .NET application.
+StrEnum is a tiny library that allows to create string-based enums in C#. Give your data more meaning by using strings over numerics while retaining type safety.
 
 StrEnum targets .NET Standard 2.0 and has no external dependencies.
 
