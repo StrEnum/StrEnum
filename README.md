@@ -4,6 +4,8 @@ StrEnum is a tiny library that allows to create string-based enums in C#. Give y
 
 StrEnum targets .NET Standard 2.0 and has no external dependencies.
 
+StrEnum-based enums can be used with EF Core with the help of the [StrEnum.EntityFrameworkCore](https://github.com/StrEnum/StrEnum.EntityFrameworkCore/) package.
+
 ## How do I install it?
 
 You can install [StrEnum](https://www.nuget.org/packages/StrEnum/) using the .NET CLI:

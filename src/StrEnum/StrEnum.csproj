@@ -9,6 +9,7 @@
 		<Description>String-based enums for C#</Description>
 		<Authors>dmitry-khmara</Authors>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageTags>String Enum;Enum;String;EF Core</PackageTags>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryType>git</RepositoryType>
