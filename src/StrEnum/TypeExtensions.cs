@@ -5,7 +5,7 @@ namespace StrEnum
     public static class TypeExtensions
     {
         /// <summary>
-        /// Gets a values indicating whether the type is a StrEnum string enum.
+        /// Gets a value indicating whether the type is a StrEnum string enum.
         /// </summary>
         /// <param name="type">The type to check</param>
         /// <returns></returns>

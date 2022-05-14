@@ -25,35 +25,43 @@ PM> Install-Package StrEnum
 Create a class that inherits from the `StringEnum<TEnum>` class and use the `Define` method to define the members:
 
 ```csharp
-public class Country : StringEnum<Country>
+public class Sport : StringEnum<Sport>
 {
-    public static readonly Country Ukraine = Define("UKR");
-    public static readonly Country SouthAfrica = Define("ZAF");
+    public static readonly Sport TrailRunning = Define("TRAIL_RUNNING");
+    public static readonly Sport RoadCycling = Define("ROAD_CYCLING");
 }
 ```
 
 You can now use your string enum as you would a regular enum:
 
 ```csharp
-var country = Country.Ukraine;
+var sport = Sport.TrailRunning;
 
-country.ToString(); // Ukraine
+sport.ToString(); // TrailRunning
 
-(string)country; // UKR
+(string)sport; // TRAIL_RUNNING
 
-country == Country.SouthAfrica; // false
+sport == Sport.RoadCycling; // false
 ```
 
 ### Parsing
 
-Use the `Parse` method to convert the name or a string value to a corresponding string enum member:
+Use the `Parse` method to convert the name or a string value to the corresponding string enum member:
 
 ```csharp
-Country.Parse("Ukraine"); // Country.Ukraine
+Sport.Parse("TrailRunning"); // Sport.TrailRunning
 
-Country.Parse("UKR"); // Country.Ukraine
+Sport.Parse("TRAIL_RUNNING"); // Sport.TrailRunning
 
-Country.Parse("Gondor"); // throws an ArgumentException: "Requested name or value 'Gondor' was not found."
+Sport.Parse("Quidditch"); // throws an ArgumentException: "Requested name or value 'Quidditch' was not found."
+```
+
+To make `Parse` ignore case, pass `true` as the second argument:
+
+```csharp
+Sport.Parse("trailrunning", ignoreCase: true); // Sport.TrailRunning
+
+Sport.Parse("trail_running"); // Sport.TrailRunning
 ```
 
 ### Adding members after initialization
@@ -61,11 +69,11 @@ Country.Parse("Gondor"); // throws an ArgumentException: "Requested name or valu
 The `Define` method can be used to add members to a string enum after it has been initialized. Since `Define` is protected, you need to expose it to the client code first:
 
 ```csharp
-public class FictionalCountry : StringEnum<FictionalCountry>
+public class FictionalSport : StringEnum<FictionalSport>
 {
-    public static readonly FictionalCountry Gondor = Define("GDR");
+    public static readonly FictionalSport Quidditch = Define("QUIDDITCH");
 
-    public static FictionalCountry Add(string name, string code)
+    public static FictionalSport Add(string name, string code)
     {
         return Define(code, name);
     }
@@ -75,11 +83,11 @@ public class FictionalCountry : StringEnum<FictionalCountry>
 You need to provide both name and value for the members defined in such way:
 
 ```csharp
-var rohan = FictionalCountry.Add("Rohan", "RHN");
+var podracing = FictionalSport.Add("Podracing", "PODRACING");
 
-(string)rohan; // RHN
+(string)podracing; // PODRACING
 
-FictionalCountry.Parse("Rohan").ToString(); // Rohan
+FictionalSport.Parse("Podracing").ToString(); // Podracing
 ```
 
 ## License

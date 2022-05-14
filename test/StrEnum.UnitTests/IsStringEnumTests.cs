@@ -7,7 +7,7 @@ namespace StrEnum.UnitTests;
 
 public class IsStringEnumTests
 {
-    public class Sports : StringEnum<Sports>
+    public class Sport : StringEnum<Sport>
     {
     }
 
@@ -18,8 +18,8 @@ public class IsStringEnumTests
             new object?[] { typeof(string), false },
             new object?[] { typeof(object), false },
             new object?[] { typeof(List<string>), false },
-            new object?[] { typeof(StringEnum<Sports>), false },
-            new object?[] { typeof(Sports), true },
+            new object?[] { typeof(StringEnum<Sport>), false },
+            new object?[] { typeof(Sport), true },
         };
 
     [Theory]
