@@ -94,13 +94,17 @@ namespace StrEnum
             return _value.GetHashCode();
         }
 
-        public static TEnum Parse(string nameOrValue)
+        /// <summary>Converts the string representation of the name or value of a member to an equivalent string enum member object.</summary>
+        /// <param name="nameOrValue">A string containing the name or value to convert.</param>
+        /// <param name="ignoreCase">
+        /// <see langword="true" /> to ignore case; <see langword="false" /> to regard case.</param>
+        public static TEnum Parse(string nameOrValue, bool ignoreCase = false)
         {
-            var member = Members.Find(nameOrValue);
+            var member = Members.Find(nameOrValue, ignoreCase);
 
             if (member == null)
                 throw new ArgumentException($"Requested name or value '{nameOrValue}' was not found.");
-
+            
             return member;
         }
 
