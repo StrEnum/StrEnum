@@ -61,7 +61,19 @@ To make `Parse` ignore case, pass `true` as the second argument:
 ```csharp
 Sport.Parse("trailrunning", ignoreCase: true); // Sport.TrailRunning
 
-Sport.Parse("trail_running"); // Sport.TrailRunning
+Sport.Parse("trail_running", ignoreCase: true); // Sport.TrailRunning
+```
+
+Use the `TryParse` method when you want to check whether the provided string can be converted to a string enum:
+
+```csharp
+Sport.TryParse("TrailRunning", out var trailRunning); // true
+
+(string)trailRunning; // Sport.TrailRunning
+    
+Sport.TryParse("Quidditch", out var quidditch); // false
+
+quidditch == null; // true
 ```
 
 ### Adding members after initialization
