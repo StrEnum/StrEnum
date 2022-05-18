@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 
 // ReSharper disable ExplicitCallerInfoArgument
@@ -92,6 +94,15 @@ namespace StrEnum
         public override int GetHashCode()
         {
             return _value.GetHashCode();
+        }
+
+        /// <summary>
+        /// Retrieves a collection of the members of a given string enum in the order of definition.
+        /// </summary>
+        /// <returns></returns>
+        public static IReadOnlyCollection<TEnum> GetMembers()
+        {
+            return Members.List();
         }
 
         /// <summary>Converts the string representation of the name or value of a member to an equivalent string enum member object.</summary>

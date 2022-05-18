@@ -2,11 +2,14 @@
 
 StrEnum is a tiny library that allows to create string-based enums in C#. Give your data more meaning by using strings over numerics while retaining type safety.
 
+StrEnum enums can be used with the various libraries and frameworks:
+
+- [StrEnum.EntityFrameworkCore](https://github.com/StrEnum/StrEnum.EntityFrameworkCore/) allows to use string enums within EF Core queries and migrations.
+- [StrEnum.System.Text.Json](https://github.com/StrEnum/StrEnum.System.Text.Json/) enables JSON serialization and deserialization with System.Text.Json.
+
 StrEnum targets .NET Standard 2.0 and has no external dependencies.
 
-StrEnum-based enums can be used with EF Core with the help of the [StrEnum.EntityFrameworkCore](https://github.com/StrEnum/StrEnum.EntityFrameworkCore/) package.
-
-## How do I install it?
+## Installation
 
 You can install [StrEnum](https://www.nuget.org/packages/StrEnum/) using the .NET CLI:
 
@@ -14,13 +17,7 @@ You can install [StrEnum](https://www.nuget.org/packages/StrEnum/) using the .NE
 dotnet add package StrEnum
 ```
 
-Or using the Package Manager console:
-
-```
-PM> Install-Package StrEnum
-```
-
-## How do I use it?
+## Usage
 
 Create a class that inherits from the `StringEnum<TEnum>` class and use the `Define` method to define the members:
 
@@ -76,6 +73,14 @@ Sport.TryParse("Quidditch", out var quidditch); // false
 quidditch == null; // true
 ```
 
+### Listing members
+
+Use the `GetMembers` method to list the members of a string enum in the order of definition:
+
+```csharp
+Sport.GetMembers(); // [Sport.TrailRunning, Sport.RoadCycling]
+```
+
 ### Adding members after initialization
 
 The `Define` method can be used to add members to a string enum after it has been initialized. Since `Define` is protected, you need to expose it to the client code first:
@@ -85,9 +90,9 @@ public class FictionalSport : StringEnum<FictionalSport>
 {
     public static readonly FictionalSport Quidditch = Define("QUIDDITCH");
 
-    public static FictionalSport Add(string name, string code)
+    public static FictionalSport Add(string name, string value)
     {
-        return Define(code, name);
+        return Define(value, name);
     }
 }
 ```
