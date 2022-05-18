@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace StrEnum
 {
@@ -15,6 +18,10 @@ namespace StrEnum
         private static readonly ConcurrentDictionary<string, TEnum> UpperCaseNameMembersStore = new();
         private static readonly ConcurrentDictionary<string, TEnum> UpperCaseValueMembersStore = new();
 
+        // ReSharper disable once StaticMemberInGenericType
+        private static int _runningOrder = -1;
+        private static readonly ConcurrentDictionary<int, TEnum> OrderMemberStore = new();
+
         public bool TryAdd(TEnum member)
         {
             var name = member.ToString();
@@ -23,8 +30,12 @@ namespace StrEnum
             var value = (string)member;
             var upperValue = value.ToUpperInvariant();
 
+            var order = Interlocked.Increment(ref _runningOrder);
+
             if (!OriginalCaseNameMembersStore.TryAdd(name, member))
                 return false;
+
+            OrderMemberStore.TryAdd(order, member);
 
             OriginalCaseValueMembersStore.TryAdd(value, member);
 
@@ -32,6 +43,15 @@ namespace StrEnum
             UpperCaseValueMembersStore.TryAdd(upperValue, member);
 
             return true;
+        }
+
+        public IReadOnlyCollection<TEnum> List()
+        {
+            var orderedMembers = OrderMemberStore
+                .OrderBy(o => o.Key)
+                .Select(o => o.Value).ToArray();
+
+            return Array.AsReadOnly(orderedMembers);
         }
 
         public TEnum? Find(string nameOrValue, bool ignoreCase)
