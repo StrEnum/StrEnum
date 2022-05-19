@@ -2,8 +2,9 @@
 
 StrEnum is a tiny library that allows to create string-based enums in C#. Give your data more meaning by using strings over numerics while retaining type safety.
 
-StrEnum enums can be used with the various libraries and frameworks:
+StrEnum can be used with the various libraries and frameworks:
 
+- [StrEnum.AspNetCore](https://github.com/StrEnum/StrEnum.AspNetCore/) allows to use string enums in your ASP.NET Core controllers.
 - [StrEnum.EntityFrameworkCore](https://github.com/StrEnum/StrEnum.EntityFrameworkCore/) allows to use string enums within EF Core queries and migrations.
 - [StrEnum.System.Text.Json](https://github.com/StrEnum/StrEnum.System.Text.Json/) enables JSON serialization and deserialization with System.Text.Json.
 

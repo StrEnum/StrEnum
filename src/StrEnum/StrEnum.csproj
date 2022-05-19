@@ -1,19 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<LangVersion>9.0</LangVersion>
-		<Nullable>enable</Nullable>
-
 		<PackageId>StrEnum</PackageId>
-		<Description>String-based enums in C# with the EF Core support.</Description>
-		<Authors>dmitry-khmara</Authors>
+		<Description>String-based enums in C# which support ASP.NET Core, EF Core, and JSON.</Description>
+		<Authors>Dmitry Khmara</Authors>
+		<Copyright>Copyright Dmitry Khmara</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageTags>StringEnum;String;Enum;EF Core</PackageTags>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryType>git</RepositoryType>
 		<RepositoryUrl>https://github.com/StrEnum/StrEnum</RepositoryUrl>
+		
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>9.0</LangVersion>
+		<Nullable>enable</Nullable>		
 	</PropertyGroup>
 
 	<Target Name="SetNuspecProperties" BeforeTargets="GenerateNuspec">
