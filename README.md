@@ -82,6 +82,33 @@ Use the `GetMembers` method to list the members of a string enum in the order of
 Sport.GetMembers(); // [Sport.TrailRunning, Sport.RoadCycling]
 ```
 
+### Using `switch` statements
+
+You can use StrEnum enums with `switch` statements with the help of C# 8 property patterns and `when` case guards:
+
+```csharp
+switch (sport)
+{
+    case { } when sport == Sport.TrailRunning:
+        PutOnTrailShoes();
+        break;
+    case { } when sport == Sport.RoadCycling:
+        GetOnRoadBike();
+        break;
+}
+```
+
+You can also use `switch` expressions like this:
+
+```csharp
+var sportName = sport switch
+{
+    _ when sport == Sport.TrailRunning => "Trail Running",
+    _ when sport == Sport.RoadCycling => "Road Cycling",
+    _ => "Not yet known"
+};
+```
+
 ### Adding members after initialization
 
 The `Define` method can be used to add members to a string enum after it has been initialized. Since `Define` is protected, you need to expose it to the client code first:
