@@ -54,35 +54,41 @@ namespace StrEnum
             return Array.AsReadOnly(orderedMembers);
         }
 
-        public TEnum? Find(string nameOrValue, bool ignoreCase)
+        public TEnum? Find(string value, bool ignoreCase, MatchBy matchBy)
         {
             if (ignoreCase)
             {
-                return FindCaseInsensitive(nameOrValue);
+                return FindCaseInsensitive(value, matchBy);
             }
 
-            return FindCaseSensitive(nameOrValue);
+            return FindCaseSensitive(value, matchBy);
         }
 
-        private static TEnum? FindCaseSensitive(string nameOrValue)
+        private static TEnum? FindCaseSensitive(string value, MatchBy matchBy)
         {
-            if (OriginalCaseNameMembersStore.TryGetValue(nameOrValue, out var foundMember))
+            if (OriginalCaseValueMembersStore.TryGetValue(value, out var foundMember))
                 return foundMember;
 
-            if (OriginalCaseValueMembersStore.TryGetValue(nameOrValue, out foundMember))
+            if (matchBy == MatchBy.ValueOnly)
+                return null;
+
+            if (OriginalCaseNameMembersStore.TryGetValue(value, out foundMember))
                 return foundMember;
 
             return null;
         }
 
-        private static TEnum? FindCaseInsensitive(string nameOrValue)
+        private static TEnum? FindCaseInsensitive(string value, MatchBy matchBy)
         {
-            var upperNameOrValue = nameOrValue.ToUpperInvariant();
+            var upperValue = value.ToUpperInvariant();
 
-            if (UpperCaseNameMembersStore.TryGetValue(upperNameOrValue, out var foundMember))
+            if (UpperCaseValueMembersStore.TryGetValue(upperValue, out var foundMember))
                 return foundMember;
 
-            if (OriginalCaseValueMembersStore.TryGetValue(upperNameOrValue, out foundMember))
+            if (matchBy == MatchBy.ValueOnly)
+                return null;
+
+            if (UpperCaseNameMembersStore.TryGetValue(upperValue, out foundMember))
                 return foundMember;
 
             return null;

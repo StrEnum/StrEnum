@@ -106,37 +106,33 @@ namespace StrEnum
         }
 
         /// <summary>Converts the string representation of the name or value of a member to an equivalent string enum member object.</summary>
-        /// <param name="nameOrValue">A string containing the name or value to convert.</param>
+        /// <param name="value">A string containing the name or value to convert.</param>
         /// <param name="ignoreCase">
         /// <see langword="true" /> to ignore case; <see langword="false" /> to regard case.</param>
-        public static TEnum Parse(string nameOrValue, bool ignoreCase = false)
+        /// <param name="matchBy">
+        /// <see langword="MatchBy.NameOrValue" /> to match the members by name or value; <see langword="MatchBy.ValueOnly" /> to match the members by value only.</param>
+        public static TEnum Parse(string value, bool ignoreCase = false, MatchBy matchBy = MatchBy.NameOrValue)
         {
-            if (!TryParse(nameOrValue, ignoreCase, out var member))
-                throw new ArgumentException($"Requested name or value '{nameOrValue}' was not found.");
+            if (!TryParse(value, out var member, ignoreCase, matchBy))
+                throw new ArgumentException($"Requested name or value '{value}' was not found.");
             
             return member!;
         }
 
         /// <summary>Converts the string representation of the name or value of a member to an equivalent string enum member object. The return value indicates whether the member was found.</summary>
-        /// <param name="nameOrValue">A string containing the name or value to convert.</param>
+        /// <param name="value">A string containing the name or value to convert.</param>
+        /// <param name="member">A found member or <see langword="null" />.</param>
         /// <param name="ignoreCase">
         /// <see langword="true" /> to ignore case; <see langword="false" /> to regard case.</param>
-        /// <param name="member">A found member or <see langword="null" />.</param>
-        public static bool TryParse(string nameOrValue, bool ignoreCase, out TEnum? member)
+        /// <param name="matchBy">
+        /// <see langword="MatchBy.NameOrValue" /> to match the members by name or value; <see langword="MatchBy.ValueOnly" /> to match the members by value only.</param>
+        public static bool TryParse(string value, out TEnum? member, bool ignoreCase = false, MatchBy matchBy = MatchBy.NameOrValue)
         {
-            member = Members.Find(nameOrValue, ignoreCase);
+            member = Members.Find(value, ignoreCase, matchBy);
 
             return member != null;
         }
-
-        /// <summary>Converts the string representation of the name or value of a member to an equivalent string enum member object. The return value indicates whether the member was found.</summary>
-        /// <param name="nameOrValue">A string containing the name or value to convert.</param>
-        /// <param name="member">A found member or <see langword="null" />.</param>
-        public static bool TryParse(string nameOrValue, out TEnum? member)
-        {
-            return TryParse(nameOrValue, false, out member);
-        }
-
+        
         public static bool operator ==(StringEnum<TEnum>? a, StringEnum<TEnum>? b)
         {
             if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
