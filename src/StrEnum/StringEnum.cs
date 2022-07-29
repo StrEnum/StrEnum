@@ -114,7 +114,7 @@ namespace StrEnum
         public static TEnum Parse(string value, bool ignoreCase = false, MatchBy matchBy = MatchBy.NameOrValue)
         {
             if (!TryParse(value, out var member, ignoreCase, matchBy))
-                throw new ArgumentException($"Requested name or value '{value}' was not found.");
+                throw new ArgumentException($"Requested {(matchBy == MatchBy.NameOrValue ? "name or " : "")}value '{value}' was not found.");
             
             return member!;
         }

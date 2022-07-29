@@ -71,7 +71,7 @@ public class ParseTests
         Action parse = () => Sport.Parse(value, ignoreCase, MatchBy.ValueOnly);
 
         parse.Should().Throw<ArgumentException>()
-            .WithMessage($"Requested name or value '{value}' was not found.");
+            .WithMessage($"Requested value '{value}' was not found.");
     }
 
     public class SportWithAliasForMtb : StringEnum<SportWithAliasForMtb>

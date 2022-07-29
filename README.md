@@ -62,6 +62,14 @@ Sport.Parse("trailrunning", ignoreCase: true); // Sport.TrailRunning
 Sport.Parse("trail_running", ignoreCase: true); // Sport.TrailRunning
 ```
 
+To make `Parse` only match the members by value and not by name, pass `MatchBy.ValueOnly` as the third argument:
+
+```csharp
+Sport.Parse("TRAIL_RUNNING", matchBy: MatchBy.ValueOnly); // Sport.TrailRunning
+
+Sport.Parse("TrailRunning", matchBy: MatchBy.ValueOnly); // throws an ArgumentException: "Requested value 'TrailRunning' was not found."
+```
+
 Use the `TryParse` method when you want to check whether the provided string can be converted to a string enum:
 
 ```csharp
