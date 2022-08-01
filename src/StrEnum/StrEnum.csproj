@@ -2,11 +2,11 @@
 
 	<PropertyGroup>
 		<PackageId>StrEnum</PackageId>
-		<Description>String-based enums in C# that support ASP.NET Core, EF Core, and JSON.</Description>
+		<Description>String-based enums in C# that support ASP.NET Core, EF Core, Dapper and JSON.</Description>
 		<Authors>Dmitry Khmara</Authors>
 		<Copyright>Copyright Dmitry Khmara</Copyright>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageTags>StringEnum;String;Enum;EF Core</PackageTags>
+		<PackageTags>StringEnum;String;Enum</PackageTags>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryType>git</RepositoryType>
