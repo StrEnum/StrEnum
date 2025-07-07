@@ -148,6 +148,6 @@ FictionalSport.Parse("Podracing").ToString(); // Podracing
 
 ## License
 
-Copyright &copy; 2022 [Dmitry Khmara](https://dmitrykhmara.com).
+Copyright &copy; 2025 [Dmytro Khmara](https://dmytrokhmara.com).
 
 StrEnum is licensed under the [MIT license](LICENSE.txt).

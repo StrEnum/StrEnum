@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /source
 
 # copy csproj and restore as distinct layers
@@ -10,12 +10,12 @@ RUN dotnet restore
 # copy everything else and build app
 COPY ./ ./
 WORKDIR /source
-RUN dotnet build -c release -o /out/package --no-restore
+RUN dotnet build -c release --no-restore
 
-FROM build as test
+FROM build AS test
 RUN dotnet test
 
-FROM build as pack-and-push
+FROM build AS pack-and-push
 WORKDIR /source
 
 ARG PackageVersion
