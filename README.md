@@ -1,21 +1,22 @@
 # StrEnum
 
-StrEnum is a tiny library that allows to create string-based enums in C#. 
-
-Give your data more meaning by using strings over numerics while retaining type safety. Read more on when and why use string enums in [my blog post](https://www.dmitrykhmara.com/blog/string-enums-in-csharp-when-why-and-how). 
-
-StrEnum supports the following tools:
-
-- [StrEnum.AspNetCore](https://github.com/StrEnum/StrEnum.AspNetCore/) allows to use string enums in your ASP.NET Core controllers.
-- [StrEnum.EntityFrameworkCore](https://github.com/StrEnum/StrEnum.EntityFrameworkCore/) allows to use string enums within EF Core queries and migrations.
-- [StrEnum.Dapper](https://github.com/StrEnum/StrEnum.Dapper/) allows to use string enums in Dapper commands and queries.
-- [StrEnum.System.Text.Json](https://github.com/StrEnum/StrEnum.System.Text.Json/) enables JSON serialization and deserialization with System.Text.Json.
+StrEnum is a tiny library for creating string-based enums in C#. Use strings instead of integers for richer, more meaningful data while keeping type safety. Read more about when and why to use string enums in [this blog post](https://www.dmitrykhmara.com/blog/string-enums-in-csharp-when-why-and-how).
 
 StrEnum targets .NET Standard 2.0 and has no external dependencies.
 
+## Ecosystem
+
+These companion packages plug StrEnum into the rest of the .NET ecosystem:
+
+- [StrEnum.AspNetCore](https://github.com/StrEnum/StrEnum.AspNetCore/) — bind string enums in ASP.NET Core controllers.
+- [StrEnum.EntityFrameworkCore](https://github.com/StrEnum/StrEnum.EntityFrameworkCore/) — use string enums in EF Core queries and migrations.
+- [StrEnum.Npgsql](https://github.com/StrEnum/StrEnum.Npgsql/) — map string enums to native Postgres enum types via Npgsql and EF Core.
+- [StrEnum.Dapper](https://github.com/StrEnum/StrEnum.Dapper/) — use string enums in Dapper commands and queries.
+- [StrEnum.System.Text.Json](https://github.com/StrEnum/StrEnum.System.Text.Json/) — JSON serialization and deserialization with System.Text.Json.
+
 ## Installation
 
-You can install [StrEnum](https://www.nuget.org/packages/StrEnum/) using the .NET CLI:
+Install [StrEnum](https://www.nuget.org/packages/StrEnum/) via the .NET CLI:
 
 ```
 dotnet add package StrEnum
@@ -23,7 +24,9 @@ dotnet add package StrEnum
 
 ## Usage
 
-Create a class that inherits from the `StringEnum<TEnum>` class and use the `Define` method to define the members:
+### Defining a string enum
+
+Inherit from `StringEnum<TEnum>` and use `Define` to declare members:
 
 ```csharp
 public class Sport : StringEnum<Sport>
@@ -33,69 +36,62 @@ public class Sport : StringEnum<Sport>
 }
 ```
 
-You can now use your string enum as you would a regular enum:
+The field name becomes the member's name; the argument to `Define` becomes its value.
+
+### Working with members
+
+Members behave like a regular enum — including `ToString`, casting, and equality:
 
 ```csharp
 var sport = Sport.TrailRunning;
 
-sport.ToString(); // TrailRunning
-
-(string)sport; // TRAIL_RUNNING
-
+sport.ToString();           // "TrailRunning"
+(string)sport;              // "TRAIL_RUNNING"
 sport == Sport.RoadCycling; // false
 ```
 
 ### Parsing
 
-Use the `Parse` method to convert the name or a string value to the corresponding string enum member:
+`Parse` converts a name or value into the matching member, throwing if no match is found:
 
 ```csharp
-Sport.Parse("TrailRunning"); // Sport.TrailRunning
-
+Sport.Parse("TrailRunning");  // Sport.TrailRunning
 Sport.Parse("TRAIL_RUNNING"); // Sport.TrailRunning
-
-Sport.Parse("Quidditch"); // throws an ArgumentException: "Requested name or value 'Quidditch' was not found."
+Sport.Parse("Quidditch");     // throws ArgumentException: "Requested name or value 'Quidditch' was not found."
 ```
 
-To make `Parse` ignore case, pass `true` as the second argument:
+Pass `ignoreCase: true` for case-insensitive matching:
 
 ```csharp
-Sport.Parse("trailrunning", ignoreCase: true); // Sport.TrailRunning
-
+Sport.Parse("trailrunning",  ignoreCase: true); // Sport.TrailRunning
 Sport.Parse("trail_running", ignoreCase: true); // Sport.TrailRunning
 ```
 
-To make `Parse` only match the members by value and not by name, pass `MatchBy.ValueOnly` as the third argument:
+Pass `MatchBy.ValueOnly` to match by value and skip member names:
 
 ```csharp
 Sport.Parse("TRAIL_RUNNING", matchBy: MatchBy.ValueOnly); // Sport.TrailRunning
-
-Sport.Parse("TrailRunning", matchBy: MatchBy.ValueOnly); // throws an ArgumentException: "Requested value 'TrailRunning' was not found."
+Sport.Parse("TrailRunning",  matchBy: MatchBy.ValueOnly); // throws ArgumentException
 ```
 
-Use the `TryParse` method when you want to check whether the provided string can be converted to a string enum:
+Use `TryParse` for the non-throwing variant:
 
 ```csharp
-Sport.TryParse("TrailRunning", out var trailRunning); // true
-
-(string)trailRunning; // Sport.TrailRunning
-    
-Sport.TryParse("Quidditch", out var quidditch); // false
-
-quidditch == null; // true
+Sport.TryParse("TrailRunning", out var trailRunning); // true,  trailRunning == Sport.TrailRunning
+Sport.TryParse("Quidditch",    out var quidditch);    // false, quidditch == null
 ```
 
 ### Listing members
 
-Use the `GetMembers` method to list the members of a string enum in the order of definition:
+`GetMembers` returns members in declaration order:
 
 ```csharp
 Sport.GetMembers(); // [Sport.TrailRunning, Sport.RoadCycling]
 ```
 
-### Using `switch` statements
+### Switch statements and expressions
 
-You can use StrEnum enums with `switch` statements with the help of C# 8 property patterns and `when` case guards:
+Because string enum members aren't constants, use property patterns with `when` guards:
 
 ```csharp
 switch (sport)
@@ -109,45 +105,41 @@ switch (sport)
 }
 ```
 
-You can also use `switch` expressions like this:
+The same pattern works in `switch` expressions:
 
 ```csharp
 var sportName = sport switch
 {
     _ when sport == Sport.TrailRunning => "Trail Running",
-    _ when sport == Sport.RoadCycling => "Road Cycling",
-    _ => "Not yet known"
+    _ when sport == Sport.RoadCycling  => "Road Cycling",
+    _                                  => "Not yet known"
 };
 ```
 
-### Adding members after initialization
+### Adding members at runtime
 
-The `Define` method can be used to add members to a string enum after it has been initialized. Since `Define` is protected, you need to expose it to the client code first:
+`Define` is `protected`, but you can expose it through a public method to add members after the class is initialized:
 
 ```csharp
 public class FictionalSport : StringEnum<FictionalSport>
 {
     public static readonly FictionalSport Quidditch = Define("QUIDDITCH");
 
-    public static FictionalSport Add(string name, string value)
-    {
-        return Define(value, name);
-    }
+    public static FictionalSport Add(string name, string value) => Define(value, name);
 }
 ```
 
-You need to provide both name and value for the members defined in such way:
+Both `name` and `value` must be supplied for members added this way:
 
 ```csharp
 var podracing = FictionalSport.Add("Podracing", "PODRACING");
 
-(string)podracing; // PODRACING
-
-FictionalSport.Parse("Podracing").ToString(); // Podracing
+(string)podracing;                            // "PODRACING"
+FictionalSport.Parse("Podracing").ToString(); // "Podracing"
 ```
 
 ## License
 
-Copyright &copy; 2025 [Dmytro Khmara](https://dmytrokhmara.com).
+Copyright &copy; 2026 [Dmytro Khmara](https://dmytrokhmara.com).
 
 StrEnum is licensed under the [MIT license](LICENSE.txt).
