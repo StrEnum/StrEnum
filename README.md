@@ -10,7 +10,8 @@ These companion packages plug StrEnum into the rest of the .NET ecosystem:
 
 - [StrEnum.AspNetCore](https://github.com/StrEnum/StrEnum.AspNetCore/) — bind string enums in ASP.NET Core controllers.
 - [StrEnum.EntityFrameworkCore](https://github.com/StrEnum/StrEnum.EntityFrameworkCore/) — use string enums in EF Core queries and migrations.
-- [StrEnum.Npgsql](https://github.com/StrEnum/StrEnum.Npgsql/) — map string enums to native Postgres enum types via Npgsql and EF Core.
+- [StrEnum.Npgsql](https://github.com/StrEnum/StrEnum.Npgsql/) — map string enums to native Postgres enum types via the Npgsql ADO.NET driver.
+- [StrEnum.Npgsql.EntityFrameworkCore](https://github.com/StrEnum/StrEnum.Npgsql.EntityFrameworkCore/) — Postgres-enum mapping for EF Core, on top of StrEnum.Npgsql.
 - [StrEnum.Dapper](https://github.com/StrEnum/StrEnum.Dapper/) — use string enums in Dapper commands and queries.
 - [StrEnum.System.Text.Json](https://github.com/StrEnum/StrEnum.System.Text.Json/) — JSON serialization and deserialization with System.Text.Json.
 
