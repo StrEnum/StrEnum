@@ -23,7 +23,7 @@ namespace StrEnum
     /// }
     /// </code>
     /// </example>
-    public abstract class StringEnum<TEnum> where TEnum : StringEnum<TEnum>, new()
+    public abstract class StringEnum<TEnum> : IEquatable<TEnum>, IComparable<TEnum>, IComparable where TEnum : StringEnum<TEnum>, new()
     {
         static StringEnum()
         {
@@ -91,9 +91,51 @@ namespace StrEnum
             return _value.Equals(otherEnum._value);
         }
 
+        public bool Equals(TEnum? other)
+        {
+            return Equals((object?)other);
+        }
+
         public override int GetHashCode()
         {
             return _value.GetHashCode();
+        }
+
+        /// <summary>Compares this member to another member of the same enum. The members are ordered by their values using an ordinal comparison.</summary>
+        /// <param name="other">A member to compare this member to, or <see langword="null" />.</param>
+        /// <returns>A negative number if this member precedes <paramref name="other" />, zero if they are equal, and a positive number if this member follows <paramref name="other" /> or <paramref name="other" /> is <see langword="null" />.</returns>
+        public int CompareTo(TEnum? other)
+        {
+            return Compare(this, other);
+        }
+
+        /// <summary>Compares this member to another member of the same enum. The members are ordered by their values using an ordinal comparison.</summary>
+        /// <param name="obj">A member to compare this member to, or <see langword="null" />.</param>
+        /// <returns>A negative number if this member precedes <paramref name="obj" />, zero if they are equal, and a positive number if this member follows <paramref name="obj" /> or <paramref name="obj" /> is <see langword="null" />.</returns>
+        /// <exception cref="ArgumentException"><paramref name="obj" /> is neither <see langword="null" /> nor a member of the <typeparamref name="TEnum" /> enum.</exception>
+        public int CompareTo(object? obj)
+        {
+            if (obj == null)
+                return 1;
+
+            if (obj is not TEnum otherEnum)
+                throw new ArgumentException($"Object must be of type {typeof(TEnum).Name}.");
+
+            return CompareTo(otherEnum);
+        }
+
+        private static int Compare(StringEnum<TEnum>? a, StringEnum<TEnum>? b)
+        {
+            if (ReferenceEquals(a, b))
+                return 0;
+
+            if (ReferenceEquals(a, null))
+                return -1;
+
+            if (ReferenceEquals(b, null))
+                return 1;
+
+            return string.CompareOrdinal(a._value, b._value);
         }
 
         /// <summary>
@@ -147,6 +189,26 @@ namespace StrEnum
         public static bool operator !=(StringEnum<TEnum>? a, StringEnum<TEnum>? b)
         {
             return !(a == b);
+        }
+
+        public static bool operator <(StringEnum<TEnum>? a, StringEnum<TEnum>? b)
+        {
+            return Compare(a, b) < 0;
+        }
+
+        public static bool operator >(StringEnum<TEnum>? a, StringEnum<TEnum>? b)
+        {
+            return Compare(a, b) > 0;
+        }
+
+        public static bool operator <=(StringEnum<TEnum>? a, StringEnum<TEnum>? b)
+        {
+            return Compare(a, b) <= 0;
+        }
+
+        public static bool operator >=(StringEnum<TEnum>? a, StringEnum<TEnum>? b)
+        {
+            return Compare(a, b) >= 0;
         }
 
         public static explicit operator string(StringEnum<TEnum> @enum)

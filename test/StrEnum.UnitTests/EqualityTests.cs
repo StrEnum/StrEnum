@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using FluentAssertions;
 using Xunit;
 
@@ -35,6 +36,31 @@ public class EqualityTests
         object? enum2, bool expectedEqual)
     {
         enum1.Equals(enum2).Should().Be(expectedEqual);
+    }
+
+    [Fact]
+    public void StringEnum_ShouldImplementTheEquatableInterface()
+    {
+        typeof(TropicalSeason).Should().Implement<IEquatable<TropicalSeason>>();
+    }
+
+    public static IEnumerable<object?[]> TypedEqualsTestCases =>
+        new[]
+        {
+            new object?[] { TropicalSeason.Wet, TropicalSeason.Wet, true },
+            new object?[] { TropicalSeason.Wet, TropicalSeason.Dry, false },
+            new object?[] { TropicalSeason.Wet, TropicalSeason.Rainy, true },
+            new object?[] { TropicalSeason.Wet, null, false },
+        };
+
+    [Theory]
+    [MemberData(nameof(TypedEqualsTestCases))]
+    public void TypedEquals_GivenTwoEnumMembers_ShouldConsiderThemEqualIfTheirValuesAreEqual(TropicalSeason enum1,
+        TropicalSeason? enum2, bool expectedEqual)
+    {
+        var equatable = (IEquatable<TropicalSeason>)enum1;
+
+        equatable.Equals(enum2).Should().Be(expectedEqual);
     }
 
     public static IEnumerable<object?[]> EqualityOperatorTestCases =>
